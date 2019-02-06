@@ -22,39 +22,39 @@ if (!fs.existsSync(basePath)){
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json({ type: 'application/json' }));
 
-const getRequest = (url) => {
-    return new Promise((resolve, reject) => {
-        if (url !== undefined && url !== null && url.indexOf('https://') !== -1) {
-            https.get(url, (res) => {
-                let data = '';
-                res.on('data', (chunk) => {
-                    data += chunk;
-                });
-                res.on('error', () => {
-                    resolve(null);
-                });
-                res.on('end', () => {
-                    resolve(data);
-                });
-            });
-        } else {
-            http.get(url, (res) => {
-                let data = '';
-                res.on('data', (chunk) => {
-                    data += chunk;
-                });
-                res.on('error', () => {
-                    resolve(null);
-                });
-                res.on('end', () => {
-                    resolve(data);
-                });
-            });
-        }
-    });
-}
-
 router.post('/getstyle', async function(req, res) {
+    const getRequest = (url) => {
+        return new Promise((resolve, reject) => {
+            if (url !== undefined && url !== null && url.indexOf('https://') !== -1) {
+                https.get(url, (res) => {
+                    let data = '';
+                    res.on('data', (chunk) => {
+                        data += chunk;
+                    });
+                    res.on('error', () => {
+                        resolve(null);
+                    });
+                    res.on('end', () => {
+                        resolve(data);
+                    });
+                });
+            } else {
+                http.get(url, (res) => {
+                    let data = '';
+                    res.on('data', (chunk) => {
+                        data += chunk;
+                    });
+                    res.on('error', () => {
+                        resolve(null);
+                    });
+                    res.on('end', () => {
+                        resolve(data);
+                    });
+                });
+            }
+        });
+    }
+
     let link = req.body.url;
     let elem = req.body.element;
     
